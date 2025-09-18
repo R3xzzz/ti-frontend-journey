@@ -1,9 +1,21 @@
 import { motion } from "framer-motion";
-import { Link, useLocation } from "react-router-dom";
-import { User } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { User, LogOut, ChevronDown } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Navbar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // Simple logout - in a real app you'd clear auth tokens
+    navigate("/login");
+  };
 
   const navItems = [
     { name: "HOME", path: "/" },
@@ -55,11 +67,36 @@ const Navbar = () => {
             ))}
           </div>
 
-          {/* Profile Section */}
-          <div className="flex items-center space-x-2 text-foreground">
-            <User className="w-5 h-5" />
-            <span className="hidden sm:inline font-medium text-sm">Profile</span>
-          </div>
+          {/* Profile Section with Dropdown */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="flex items-center space-x-2 text-foreground hover:text-foreground/80 transition-colors duration-300 focus:outline-none"
+              >
+                <User className="w-5 h-5" />
+                <span className="hidden sm:inline font-medium text-sm">Ahmad</span>
+                <ChevronDown className="w-4 h-4" />
+              </motion.button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent 
+              align="end" 
+              className="w-56 bg-card border border-border shadow-xl z-50 mt-2"
+            >
+              <div className="px-4 py-3 border-b border-border">
+                <p className="text-sm font-medium text-card-foreground">Ahmad Fadhil Raihan</p>
+                <p className="text-xs text-card-foreground/60">Student Portal</p>
+              </div>
+              <DropdownMenuItem 
+                onClick={handleLogout}
+                className="cursor-pointer text-destructive hover:text-destructive hover:bg-destructive/10 focus:text-destructive focus:bg-destructive/10"
+              >
+                <LogOut className="w-4 h-4 mr-2" />
+                Logout
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
 
         {/* Mobile Navigation Pills - Centered */}
