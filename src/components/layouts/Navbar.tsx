@@ -67,6 +67,30 @@ const Navbar = () => {
             ))}
           </div>
 
+          {/* Mobile Navigation Pills - Centered */}
+          <div className="md:hidden flex items-center justify-center space-x-1 flex-1 mx-4">
+            {navItems.map((item) => (
+              <motion.div
+                key={item.name}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Link
+                  to={item.path}
+                  className={`
+                    px-3 py-1.5 rounded-full font-medium text-xs tracking-wide transition-all duration-300
+                    ${isActive(item.path) 
+                      ? 'bg-card text-card-foreground shadow-md border border-border' 
+                      : 'text-foreground/70 hover:text-foreground hover:bg-card/50'
+                    }
+                  `}
+                >
+                  {item.name}
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+
           {/* Profile Section with Dropdown */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -98,34 +122,6 @@ const Navbar = () => {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-
-        {/* Mobile Navigation Pills - Centered */}
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="md:hidden mt-4 flex justify-center space-x-2"
-        >
-          {navItems.map((item) => (
-            <motion.div
-              key={item.name}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Link
-                to={item.path}
-                className={`
-                  px-4 py-2 rounded-full font-medium text-xs tracking-wide transition-all duration-300
-                  ${isActive(item.path) 
-                    ? 'bg-card text-card-foreground shadow-md border border-border' 
-                    : 'text-foreground/70 hover:text-foreground hover:bg-card/50'
-                  }
-                `}
-              >
-                {item.name}
-              </Link>
-            </motion.div>
-          ))}
-        </motion.div>
       </div>
     </motion.nav>
   );
