@@ -43,8 +43,8 @@ const Navbar = () => {
             Ti
           </motion.div>
 
-          {/* Centered Navigation Pills */}
-          <div className="flex items-center justify-center space-x-2">
+          {/* Centered Navigation Pills - Desktop Only */}
+          <div className="hidden md:flex items-center justify-center space-x-2">
             {navItems.map((item) => (
               <motion.div
                 key={item.name}
