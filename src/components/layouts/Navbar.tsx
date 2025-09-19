@@ -54,7 +54,7 @@ const Navbar = () => {
                 <Link
                   to={item.path}
                   className={`
-                    px-6 py-3 rounded-full font-medium text-sm tracking-wide transition-all duration-300
+                    px-4 py-2 rounded-full font-medium text-xs tracking-wide transition-all duration-300
                     ${isActive(item.path) 
                       ? 'bg-card text-card-foreground shadow-lg border border-border' 
                       : 'text-foreground/70 hover:text-foreground hover:bg-card/50 hover:shadow-md'
