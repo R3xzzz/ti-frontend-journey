@@ -106,7 +106,7 @@ const Navbar = () => {
             </DropdownMenuTrigger>
             <DropdownMenuContent 
               align="end" 
-              className="w-56 bg-card border border-border shadow-xl z-50 mt-2"
+              className="w-56 bg-background border border-border shadow-2xl z-[100] mt-2 rounded-lg"
             >
               <div className="px-4 py-3 border-b border-border">
                 <p className="text-sm font-medium text-card-foreground">Ahmad Fadhil Raihan</p>
