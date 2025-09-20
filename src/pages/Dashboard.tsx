@@ -11,7 +11,13 @@ const Dashboard = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <motion.div
+      initial={{ opacity: 0, x: 100 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, scale: 0.95 }}
+      transition={{ duration: 0.5, ease: "easeInOut" }}
+      className="min-h-screen bg-background"
+    >
       <Navbar />
       
       <motion.div
@@ -96,7 +102,7 @@ const Dashboard = () => {
           </motion.div>
         </div>
       </motion.div>
-    </div>
+    </motion.div>
   );
 };
 
