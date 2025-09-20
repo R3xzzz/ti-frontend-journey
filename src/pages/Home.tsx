@@ -1,10 +1,23 @@
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { ChevronDown } from "lucide-react";
+import { useRef } from "react";
 import Navbar from "@/components/layouts/Navbar";
 import About from "@/components/sections/About";
 import polytechBg from "@/assets/poltek-bg.jpg";
 
 const Home = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"]
+  });
+
+  const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+  const backgroundOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [1, 0.8, 0]);
+  const gradientOpacity = useTransform(scrollYProgress, [0, 0.6, 1], [0, 0.5, 1]);
+  const textY = useTransform(scrollYProgress, [0, 1], ["0%", "-50%"]);
+  const textOpacity = useTransform(scrollYProgress, [0, 0.3, 0.7], [1, 0.8, 0]);
+
   const scrollToAbout = () => {
     const aboutSection = document.getElementById("about");
     aboutSection?.scrollIntoView({ behavior: "smooth" });
@@ -12,6 +25,7 @@ const Home = () => {
 
   return (
     <motion.div
+      ref={containerRef}
       initial={{ opacity: 0, y: 20, scale: 0.98 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: -20, scale: 0.98 }}
@@ -26,20 +40,34 @@ const Home = () => {
       
       {/* Hero Section */}
       <motion.section
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-        className="min-h-screen flex items-center justify-center relative pt-20"
-        style={{
-          backgroundImage: `url(${polytechBg})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat'
-        }}
+        className="min-h-screen flex items-center justify-center relative pt-20 overflow-hidden"
       >
-        {/* Background Overlay */}
+        {/* Animated Background Image */}
+        <motion.div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `url(${polytechBg})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            y: backgroundY,
+            opacity: backgroundOpacity,
+          }}
+        />
+        
+        {/* Static Background Overlay */}
         <div className="absolute inset-0 bg-black/50"></div>
-        <div className="text-center space-y-8 relative z-10">
+        
+        {/* Gradient Transition Overlay */}
+        <motion.div
+          className="absolute inset-0 bg-gradient-to-b from-transparent via-background/80 to-background"
+          style={{ opacity: gradientOpacity }}
+        />
+
+        <motion.div 
+          className="text-center space-y-8 relative z-10"
+          style={{ y: textY, opacity: textOpacity }}
+        >
           <motion.h1
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -62,7 +90,7 @@ const Home = () => {
               NIM: 123456789
             </p>
           </motion.div>
-        </div>
+        </motion.div>
 
         {/* Scroll Indicator */}
         <motion.button
@@ -73,6 +101,7 @@ const Home = () => {
           className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white/80 hover:text-white transition-colors duration-300 z-10"
           whileHover={{ y: -5 }}
           whileTap={{ y: 0 }}
+          style={{ opacity: textOpacity }}
         >
           <motion.div
             animate={{ y: [0, 10, 0] }}
